@@ -10,10 +10,36 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\API\V1\UserRegisterRequest;
 use Illuminate\Support\Facades\Hash;
 
+/**
+* @OA\Info(title="API Post", version="1.0.0")
+*
+* @OA\SecurityScheme(type="http", securityScheme="bearerAuth", scheme="bearer", bearerFormat="JWT")
+*
+* @OA\Server(url="https://api.test/public/api/v1")
+*/
 class RegisterController extends Controller
 {
+    
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *      path="/user/list",
+     *      summary="Get all user and paginate list",
+     *      tags={"Users"},
+     *      @OA\RequestBody(
+     *          description="A JSON object containing user information",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Users retrieved successfully" 
+     *      ),
+     *      @OA\Response(
+     *          response=409,
+     *          description="Failed to get user"
+     *      )
+     * )
      */
     public function index()
     {
@@ -29,13 +55,83 @@ class RegisterController extends Controller
         }catch( Exception $e ){
             return response()->json([
                 'status'        => 'failed',
-                'message'       => 'Failed to set user.'
+                'message'       => 'Failed to get user'
             ], Response::HTTP_CONFLICT);
         }
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/user/register",
+     *      summary="Store a new user",
+     *      tags={"Users"},
+     *      operationId="addUser",
+     *      @OA\RequestBody(
+     *          description="A JSON object containing user information",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          name="first_name",
+     *          description="The first name of user",
+     *          required=true,
+     *          in="query",
+     *          example="Jhon",
+     *          @OA\Schema(
+     *              type="string",
+     *          ),
+     *      ),   
+     *      @OA\Parameter(
+     *          name="last_name",
+     *          description="The last name of user",
+     *          required=true,
+     *          in="query",
+     *          example="Doe",
+     *          @OA\Schema(
+     *              type="string",
+     *          ),
+     *      ), 
+     *      @OA\Parameter(
+     *          name="email",
+     *          description="E-mail by the user login",
+     *          required=true,
+     *          in="query",
+     *          example="jhondoe@example.com",
+     *          @OA\Schema(
+     *              type="string",
+     *          ),*          
+     *      ),
+     *      @OA\Parameter(
+     *          name="password",
+     *          description="Password by the user login",
+     *          required=true,
+     *          in="query",
+     *          example="12345678",
+     *          @OA\Schema(
+     *              type="string",
+     *          ),*          
+     *      ), 
+     *      @OA\Parameter(
+     *          name="password_confirmation",
+     *          description="Confirm assword",
+     *          required=true,
+     *          in="query",
+     *          example="12345678",
+     *          @OA\Schema(
+     *              type="string",
+     *          ),*          
+     *      ),     
+     *      @OA\Response(
+     *          response=201,
+     *          description="User created with success" 
+     *      ),
+     *      @OA\Response(
+     *          response=409,
+     *          description="Failed to set user"
+     *      )
+     * )
      */
     public function store(UserRegisterRequest $request)
     {
