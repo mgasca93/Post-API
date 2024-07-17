@@ -17,7 +17,21 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $users = User::paginate(10);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Users retrieved successfully',
+                'data' => $users
+            ], Response::HTTP_OK);
+
+        }catch( Exception $e ){
+            return response()->json([
+                'status'        => 'failed',
+                'message'       => 'Failed to set user.'
+            ], Response::HTTP_CONFLICT);
+        }
     }
 
     /**
