@@ -1,0 +1,127 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Post",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.test/public/api/v1"
+        }
+    ],
+    "paths": {
+        "/user/list": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all user and paginate list",
+                "operationId": "b9ef8f578d1f3e0675543b504055ea81",
+                "requestBody": {
+                    "description": "A JSON object containing user information",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Users retrieved successfully"
+                    },
+                    "409": {
+                        "description": "Failed to get user"
+                    }
+                }
+            }
+        },
+        "/user/register": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Store a new user",
+                "operationId": "addUser",
+                "parameters": [
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "description": "The first name of user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Jhon"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "description": "The last name of user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Doe"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "E-mail by the user login",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "jhondoe@example.com"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password by the user login",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "12345678"
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "Confirm assword",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "12345678"
+                    }
+                ],
+                "requestBody": {
+                    "description": "A JSON object containing user information",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created with success"
+                    },
+                    "409": {
+                        "description": "Failed to set user"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
