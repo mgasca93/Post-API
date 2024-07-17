@@ -13,4 +13,12 @@ class Category extends Model
         'name',
         'slug'
     ];
+
+    /**
+     * Relation  one to many
+     */
+    public function posts()
+    {
+        return $this->hasMany( Post::class );
+    }
 }
