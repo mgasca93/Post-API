@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 *
 * @OA\SecurityScheme(type="http", securityScheme="bearerAuth", scheme="bearer", bearerFormat="JWT")
 *
-* @OA\Server(url="https://api.test/public/api/v1")
+* @OA\Server(url="/api/v1")
 */
 
 class UserController extends Controller
