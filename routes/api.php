@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\API\V1\RegisterController;
+use App\Http\Controllers\API\V1\UserController;
 
 Route::prefix('v1')->name('api.v1.')->group( function(){
 
@@ -15,8 +15,8 @@ Route::prefix('v1')->name('api.v1.')->group( function(){
         ], Response::HTTP_OK);
     });
 
-    Route::post('/user/register', [RegisterController::class, 'store'])->name('user.register');
-    Route::get('/user/list', [RegisterController::class, 'index']);
+    Route::post('/user/create', [UserController::class, 'store'])->name('user.store');
+    Route::get('/users', [UserController::class, 'index'])->name('user.index');
 
     // Route::get('/user', function (Request $request) {
     //     return $request->user();

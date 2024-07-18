@@ -10,13 +10,13 @@
         }
     ],
     "paths": {
-        "/user/list": {
+        "/users": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get all user and paginate list",
-                "operationId": "b9ef8f578d1f3e0675543b504055ea81",
+                "operationId": "ba501f3269ce6ad8559307f98fe3c862",
                 "requestBody": {
                     "description": "A JSON object containing user information",
                     "content": {
@@ -33,7 +33,7 @@
                 }
             }
         },
-        "/user/register": {
+        "/user/create": {
             "post": {
                 "tags": [
                     "Users"
