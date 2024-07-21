@@ -16,7 +16,7 @@
                     "Categories"
                 ],
                 "summary": "Get all categories and paginate list",
-                "operationId": "5ab809a837c23cb8e6b1690241a8c86f",
+                "operationId": "findCategories",
                 "requestBody": {
                     "description": "A JSON object containing categories information",
                     "content": {
@@ -74,7 +74,7 @@
                     "Categories"
                 ],
                 "summary": "Get category with match slug",
-                "operationId": "80eb722e4502b108256df7a610b46b70",
+                "operationId": "findCategory",
                 "parameters": [
                     {
                         "name": "slug",
@@ -102,6 +102,88 @@
                     },
                     "409": {
                         "description": "Failed to get category"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update category with match slug",
+                "operationId": "updateCategory",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of the catory",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "peliculas"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name of the catory",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Tutorial"
+                    }
+                ],
+                "requestBody": {
+                    "description": "A JSON object containing category updated information",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated with success"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    },
+                    "409": {
+                        "description": "Failed to update category"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete category with match slug",
+                "operationId": "deleteCategory",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of the catory",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "peliculas"
+                    }
+                ],
+                "requestBody": {
+                    "description": "A JSON object containing confirmation delete category",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully"
+                    },
+                    "404": {
+                        "description": "Failed to delete category becasue not found"
+                    },
+                    "409": {
+                        "description": "Failed to delete category"
                     }
                 }
             }
