@@ -10,6 +10,102 @@
         }
     ],
     "paths": {
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get all categories and paginate list",
+                "operationId": "5ab809a837c23cb8e6b1690241a8c86f",
+                "requestBody": {
+                    "description": "A JSON object containing categories information",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Categories retrieved successfully"
+                    },
+                    "409": {
+                        "description": "Failed to get categories"
+                    }
+                }
+            }
+        },
+        "/category/create": {
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Store a new category",
+                "operationId": "addCategory",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name of the catory",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Tutorial"
+                    }
+                ],
+                "requestBody": {
+                    "description": "A JSON object containing category information",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created with success"
+                    },
+                    "409": {
+                        "description": "Failed to set category"
+                    }
+                }
+            }
+        },
+        "/category/{slug}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get category with match slug",
+                "operationId": "80eb722e4502b108256df7a610b46b70",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of the catory",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "peliculas"
+                    }
+                ],
+                "requestBody": {
+                    "description": "A JSON object containing category information",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Failed to get category"
+                    },
+                    "409": {
+                        "description": "Failed to get category"
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "tags": [
@@ -119,6 +215,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Categories",
+            "description": "Categories"
+        },
         {
             "name": "Users",
             "description": "Users"
