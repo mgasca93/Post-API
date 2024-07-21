@@ -17,6 +17,7 @@ class CategoryController extends Controller
      *      path="/categories",
      *      summary="Get all categories and paginate list",
      *      tags={"Categories"},
+     *      operationId="findCategories",
      *      @OA\RequestBody(
      *          description="A JSON object containing categories information",
      *          @OA\MediaType(
@@ -110,6 +111,7 @@ class CategoryController extends Controller
      *      path="/category/{slug}",
      *      summary="Get category with match slug",
      *      tags={"Categories"},
+     *      operationId="findCategory",
      *      @OA\RequestBody(
      *          description="A JSON object containing category information",
      *          @OA\MediaType(
@@ -167,18 +169,144 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\put(
+     *      path="/category/{slug}",
+     *      summary="Update category with match slug",
+     *      tags={"Categories"},
+     *      operationId="updateCategory",
+     *      @OA\RequestBody(
+     *          description="A JSON object containing category updated information",
+     *          @OA\MediaType(
+     *              mediaType="application/json"
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          name="slug",
+     *          description="Slug of the catory",
+     *          required=true,
+     *          in="path",
+     *          example="peliculas",
+     *          @OA\Schema(
+     *              type="string"
+     *          ), 
+     *      ), 
+     *      @OA\Parameter(
+     *          name="name",
+     *          description="Name of the catory",
+     *          required=true,
+     *          in="query",
+     *          example="Tutorial",
+     *          @OA\Schema(
+     *              type="string"
+     *          ), 
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Category updated with success"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Category not found"
+     *      ),
+     *      @OA\Response(
+     *          response=409,
+     *          description="Failed to update category"
+     *      ),
+     * )
      */
-    public function update(Request $request, Category $category)
+    public function update( CategoryRegisterRequest $request, $slug = '' )
     {
-        //
+        try{       
+                        
+            $category = Category::where('slug', $slug)->first();
+            if( isset( $category ) ) :
+                $slug = Str::slug( $request->name );
+
+                $category->update([
+                    'name' => $request->name,
+                    'slug' => $slug,
+                ]);
+
+                return response()->json([
+                    'status'        => 'success',
+                    'message'       => 'Category updated successfully',
+                    'data'          => $category,
+                ], Response::HTTP_OK);
+            endif;
+
+            return response()->json([
+                'status'        => 'failed',
+                'message'       => 'Failed to update category',
+            ], Response::HTTP_NOT_FOUND);
+
+        }catch( Exception $e )
+        {
+            return response()->json([
+                'status'        => 'failed',
+                'message'       => 'Failed to update category'
+            ], Response::HTTP_CONFLICT);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/category/{slug}",
+     *      summary="Delete category with match slug",
+     *      tags={"Categories"},
+     *      operationId="deleteCategory",
+     *      @OA\RequestBody(
+     *          description="A JSON object containing confirmation delete category",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          ),
+     *      ),    
+     *      @OA\Parameter(
+     *          name="slug",
+     *          description="Slug of the catory",
+     *          required=true,
+     *          in="path",
+     *          example="peliculas",
+     *          @OA\Schema(
+     *              type="string"
+     *          ), 
+     *      ),  
+     *      @OA\Response(
+     *          response=200,
+     *          description="Category deleted successfully" 
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Failed to delete category becasue not found"
+     *      ),
+     *      @OA\Response(
+     *          response=409,
+     *          description="Failed to delete category"
+     *      ),
+     * )
      */
-    public function destroy(Category $category)
+    public function destroy( $slug = '' )
     {
-        //
+        try{
+            $category = Category::where('slug', $slug)->first();
+            if( isset( $category ) ) :
+                $category->delete();
+                return response()->json([
+                    'status'        => 'success',
+                    'message'       => 'Category deleted successfully',
+                    'data'          => $category
+                ], Response::HTTP_OK);
+            endif;
+
+            return response()->json([
+                'status'        => 'failed',
+                'message'       => 'Failed to delete category becasue not found',
+            ], Response::HTTP_NOT_FOUND);
+        }catch( Exception $e )
+        {
+            return response()->json([
+                'status'        => 'failed',
+                'message'       => 'Failed to delete category',
+            ], Response::HTTP_CONFLICT);
+        }
     }
 }
