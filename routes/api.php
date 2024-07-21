@@ -22,6 +22,8 @@ Route::prefix('v1')->name('api.v1.')->group( function(){
     Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
     Route::post('/category/create', [CategoryController::class, 'store'])->name('category.store');
     Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('category.show');
+    Route::put('/category/{slug}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{slug}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
     // Route::get('/user', function (Request $request) {
     //     return $request->user();
