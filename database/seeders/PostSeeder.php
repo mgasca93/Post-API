@@ -14,7 +14,7 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
-        Post::factory( 100 )->create()->each( function( Post $post ){
+        Post::factory( 20 )->create()->each( function( Post $post ){
 
             Image::factory( 4 )->create([
                 'imageable_id'      => $post->id,
